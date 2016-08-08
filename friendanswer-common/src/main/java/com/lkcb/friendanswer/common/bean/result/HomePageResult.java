@@ -5,12 +5,20 @@ package com.lkcb.friendanswer.common.bean.result;
  * 首页单行数据Bean
  */
 public class HomePageResult {
+    private long postId ; //帖子id
     private String title ;        //标题
     private String description ;  //正文简述
     private int favorCount ;      //点赞数
     private int commentCount ;    //评论数
     private int starCount ;       //收藏数
 
+    public long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(long postId) {
+        this.postId = postId;
+    }
 
     public String getTitle() {
         return title;
