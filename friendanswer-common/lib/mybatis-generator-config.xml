@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE generatorConfiguration  
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
+  
+<generatorConfiguration>
+
+	<!-- classPathEntry:数据库的JDBC驱动,换成你自己的驱动位置 --> 
+    <classPathEntry location="D:\work\maven\local\rep0\mysql\mysql-connector-java\5.1.33\mysql-connector-java-5.1.33.jar" />  
+  
+    <context id="mysql" targetRuntime="MyBatis3">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->  
+			<property name="suppressAllComments" value="false" />
+			<!-- 此属性用于指定在生成的注释是否将包括MBG代时间戳 -->
+            <property name="suppressDate" value="true" />
+        </commentGenerator>  
+  
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/friendanswer_db" userId="root" password="root">
+        </jdbcConnection>  
+  
+        <javaTypeResolver>  
+            <property name="forceBigDecimals" value="false" />  
+        </javaTypeResolver>
+
+		<!-- targetProject:自动生成代码的位置 -->
+  
+		<!-- 生成Model -->
+        <javaModelGenerator targetPackage="com.lkcb.friendanswer.common.bean" targetProject="../src/main/java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="true" />
+			<!-- 是否针对string类型的字段在set的时候进行trim调用 -->
+            <property name="trimStrings" value="false" />  
+        </javaModelGenerator>  
+  
+		<!-- 生成Mapper.xml -->
+        <sqlMapGenerator targetPackage="com.lkcb.friendanswer.common.dao"  targetProject="../src/main/resources">
+            <property name="enableSubPackages" value="true" />
+			<property name="enableDeleteByExample" value="false" />
+			<property name="enableCountByExample" value="false" />
+			<property name="enableUpdateByExample" value="false" />
+			<property name="enableSelectByExample" value="false" />
+			<property name="selectByExampleQueryId" value="false" />
+        </sqlMapGenerator>  
+		<!-- 生成dao -->
+        <javaClientGenerator targetPackage="com.lkcb.friendanswer.common.dao"  implementationPackage="com.lkcb.friendanswer.common.dao.impl"
+        targetProject="../src/main/java"  type="XMLMAPPER" >
+            <property name="enableSubPackages" value="true" />  
+        </javaClientGenerator>
+  
+		<!--<ignoreColumn column="被忽略的字段的名字" />-->
+        <table tableName="fa_favor" domainObjectName="FavorBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
+		<table tableName="fa_post" domainObjectName="PostBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
+		<table tableName="fa_post_comment" domainObjectName="PostCommentBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
+		<table tableName="fa_star" domainObjectName="StarBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
+		<table tableName="fa_territory" domainObjectName="TerritoryBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
+		<table tableName="fa_territory_category" domainObjectName="TerritoryCategoryBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
+
+    </context>  
+</generatorConfiguration>  
