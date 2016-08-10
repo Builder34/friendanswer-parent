@@ -5,6 +5,7 @@ import com.lkcb.friendanswer.common.bean.result.HomePageResult;
 import com.lkcb.friendanswer.common.service.BasicService;
 import com.lkcb.friendanswer.utils.OperateResult;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,5 +16,5 @@ public interface IPostService extends BasicService<PostBean> {
     /**
      * 首页列表查询
      * */
-    public OperateResult<HomePageResult> getHomePageList(Map<String,Integer> params) ;
+    OperateResult<List<HomePageResult>> getHomePageList(Map<String,Integer> params) ;
 }

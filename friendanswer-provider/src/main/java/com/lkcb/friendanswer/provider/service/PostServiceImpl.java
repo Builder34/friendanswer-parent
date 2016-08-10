@@ -57,7 +57,7 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public OperateResult<HomePageResult> getHomePageList(Map<String,Integer> params) {
+    public OperateResult<List<HomePageResult>> getHomePageList(Map<String,Integer> params) {
         OperateResult result = new OperateResult() ;
         try{
             List<HomePageResult> data= postBeanMapperExt.getHomePageList(params) ;

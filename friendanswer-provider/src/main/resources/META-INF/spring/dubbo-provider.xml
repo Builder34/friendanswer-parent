@@ -19,9 +19,10 @@
 	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
-	
-	<bean id="demoService" class="org.collection.service.provider.DemoServiceImpl" />
-	
-	<dubbo:service interface="com.ai.collection.service.api.DemoService" ref="demoService" />
+
+	<!--<dubbo:application name="friendanswer-provider" />
+	<dubbo:registry id="fa-provider" address="zookeeper://10.3.19.41:2181" />
+	<dubbo:protocol name="dubbo" port="28080" />-->
+	<dubbo:service  timeout="30000" interface="com.lkcb.friendanswer.api.IPostService" ref="postServiceImpl" />
 	
 </beans>

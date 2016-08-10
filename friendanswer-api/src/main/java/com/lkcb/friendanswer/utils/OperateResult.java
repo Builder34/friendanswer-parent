@@ -1,10 +1,14 @@
 package com.lkcb.friendanswer.utils;
 
+import java.io.Serializable;
+
 /**
  * Created by Builder34 on 2016/8/8.
  * 操作结果类
  */
-public class OperateResult<T> {
+public class OperateResult<T> implements Serializable {
+    private static final long serialVersionUID = 4741732279428546039L;
+
     private int success ;   //操作是否成功
     private String errorMsg ;  //错误信息
     private T data ;   //结果JSON字符串数据

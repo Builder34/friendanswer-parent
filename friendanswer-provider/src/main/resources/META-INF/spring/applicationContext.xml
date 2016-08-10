@@ -9,52 +9,48 @@
     default-lazy-init="true">
 
 	<description>Spring公共配置</description>
-
 	<!--开启注解 -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.lkcb.friendanswer" />
+	<context:component-scan base-package="com.lkcb.friendanswer.provider.service" />
 	<!-- 开启注解事务支持 -->	
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		 <property name="dataSource" ref="dataSourceDruid"/>
 	</bean>
-	<context:property-placeholder location="classpath:config/dataSource-config.properties" ignore-unresolvable="true"/>
 	<!-- 通过BeanFactoryAware，手动从spring容器获取bean -->
-    <bean class="com.lkcb.friendanswer.provider.utils.SpringContextHolder"  lazy-init="false" />
+    <!--<bean class="com.lkcb.friendanswer.provider.utils.SpringContextHolder"  lazy-init="false" />-->
 	<bean id="dataSourceDruid" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-		<property name="driverClassName" value="${driverClassName}" />
-		<property name="url" value="${jdbc_url}" />
-		<property name="username" value="${jdbc_user}" />
-		<property name="password" value="${jdbc_password}" />
-		<property name="filters" value="${filters}" />
-		<property name="maxActive" value="${maxActive}" />
-		<property name="initialSize" value="${initialSize}" />
-		<property name="minIdle" value="${minIdle}" />
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://10.3.19.12:3306/friendanswer_db?useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+		<property name="filters" value="stat" />
+		<property name="maxActive" value="20" />
+		<property name="initialSize" value="1" />
+		<property name="minIdle" value="10" />
 		<!-- 配置获取连接等待超时的时间 -->
-		<property name="maxWait" value="${maxWait}" />
+		<property name="maxWait" value="60000" />
 		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-		<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
 		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-		<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />
-		<property name="validationQuery" value="${validationQuery}" />
-		<property name="testWhileIdle" value="${testWhileIdle}" />
-		<property name="testOnBorrow" value="${testOnBorrow}" />
-		<property name="testOnReturn" value="${testOnReturn}" />
-
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
 		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
-		<property name="poolPreparedStatements" value="${poolPreparedStatements}" />
-		<property name="maxPoolPreparedStatementPerConnectionSize" value="${maxOpenPreparedStatements}" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
 	</bean>
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSourceDruid" />
 	</bean>
-
-	<!-- 会自动将basePackage中配置的包路径下的所有带有@Mapper标注的接口生成代理类，实现数据访问 -->
+	<!-- 会自动将basePackage中配置的包路径下Mapper接口生成代理类，实现数据访问 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.lkcb.friendanswer.common.dao" />
 		<!--不能配此项,否则使用不了上面的context:property-placeholder,解决如下-->
 		<!--<property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
-
+	<import resource="classpath:META-INF/spring/dubbo-provider.xml" />
 </beans>

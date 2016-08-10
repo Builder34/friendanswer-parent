@@ -6,10 +6,11 @@
 <generatorConfiguration>
 
 	<!-- classPathEntry:数据库的JDBC驱动,换成你自己的驱动位置 --> 
-    <classPathEntry location="D:\work\maven\local\rep0\mysql\mysql-connector-java\5.1.33\mysql-connector-java-5.1.33.jar" />  
-  
+    <classPathEntry location="D:\work\maven\local\rep0\mysql\mysql-connector-java\5.1.33\mysql-connector-java-5.1.33.jar" />
+
     <context id="mysql" targetRuntime="MyBatis3">
         <property name="javaFileEncoding" value="UTF-8"/>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
         <commentGenerator>
 			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->  
 			<property name="suppressAllComments" value="false" />
@@ -31,7 +32,8 @@
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="true" />
 			<!-- 是否针对string类型的字段在set的时候进行trim调用 -->
-            <property name="trimStrings" value="false" />  
+            <property name="trimStrings" value="false" />
+
         </javaModelGenerator>  
   
 		<!-- 生成Mapper.xml -->

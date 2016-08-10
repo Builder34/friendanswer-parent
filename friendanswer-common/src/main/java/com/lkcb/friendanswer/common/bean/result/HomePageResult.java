@@ -1,10 +1,13 @@
 package com.lkcb.friendanswer.common.bean.result;
 
+import java.io.Serializable;
+
 /**
  * Created by Builder34 on 2016/8/8.
  * 首页单行数据Bean
  */
-public class HomePageResult {
+public class HomePageResult implements Serializable {
+    private static final long serialVersionUID = -1372605468506360589L;
     private long postId ; //帖子id
     private String title ;        //标题
     private String description ;  //正文简述
