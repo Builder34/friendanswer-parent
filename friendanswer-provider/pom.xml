@@ -113,6 +113,25 @@
             <version>0.2</version>
         </dependency>
     </dependencies>
+    <!--多环境配置文件 打包命令: mvn install -Pdevelopment-->
+    <profiles>
+        <profile>
+            <id>development</id>
+            <properties>
+                <env>development</env>
+            </properties>
+            <!--是否为打包默认环境-->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <env>test</env>
+            </properties>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
@@ -149,7 +168,7 @@
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    <descriptor>src/main/assembly/assembly-${env}.xml</descriptor>
                 </configuration>
                 <executions>
                     <execution>
