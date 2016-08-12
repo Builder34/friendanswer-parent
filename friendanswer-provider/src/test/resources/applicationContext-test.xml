@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
     xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
     xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx.xsd
-    http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd"
+    http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+    http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
     default-lazy-init="true">
 
 	<description>Spring公共配置</description>
@@ -59,5 +61,15 @@
 		<!--<property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
-	<import resource="classpath:META-INF/spring/dubbo-provider.xml" />
+
+
+	<!-- 应用名 -->
+	<dubbo:application name="friendanswer-provider"/>
+	<!-- 连接到哪个本地注册中心 -->
+	<dubbo:registry id="dubbodemo" address="zookeeper://127.0.0.1:2181"/>
+	<!-- 用dubbo协议在20880端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="20880" />
+	<dubbo:service  timeout="30000" interface="com.lkcb.friendanswer.api.IPostService" ref="postServiceImpl" loadbalance="roundrobin"/>
+
+
 </beans>

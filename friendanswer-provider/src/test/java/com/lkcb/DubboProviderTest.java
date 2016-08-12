@@ -21,7 +21,7 @@ public class DubboProviderTest {
     public static PostServiceImpl postService ;
     @BeforeClass
     public static void setupBeforeClass() throws Exception{
-        PropertyConfigurator.configure(PostServiceImpl.class.getResource("/config/log4j.properties"));
+        PropertyConfigurator.configure(PostServiceImpl.class.getResource("/config/dubbo_conf.properties"));
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/applicationContext.xml") ;
         postService = (PostServiceImpl)context.getBean("postServiceImpl") ;
         //context.close();
