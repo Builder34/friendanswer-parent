@@ -31,7 +31,7 @@ public class FAnswerExceptionHandler implements HandlerExceptionResolver {
 			if (ex instanceof FAnswerException) {
 				mv = new ModelAndView(page500);
 				FAnswerException e = (FAnswerException) ex;
-				String errorMsg = e.getMsg() + "，错误代码：" + e.getMsgCode().getMsgCode();
+				String errorMsg = e.getMsg() + "，错误代码：" + e.getMsgCode().getCode();
 				mv.addObject("errorMsg", errorMsg);
 			} else {
 				mv.addObject("errorMsg", "系统繁忙，请联系管理员！");

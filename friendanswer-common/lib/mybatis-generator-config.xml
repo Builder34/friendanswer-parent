@@ -52,12 +52,15 @@
         </javaClientGenerator>
   
 		<!--<ignoreColumn column="被忽略的字段的名字" />-->
-        <table tableName="fa_favor" domainObjectName="FavorBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
+       <!-- <table tableName="fa_favor" domainObjectName="FavorBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
 		<table tableName="fa_post" domainObjectName="PostBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
 		<table tableName="fa_post_comment" domainObjectName="PostCommentBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
 		<table tableName="fa_star" domainObjectName="StarBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
 		<table tableName="fa_territory" domainObjectName="TerritoryBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
 		<table tableName="fa_territory_category" domainObjectName="TerritoryCategoryBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"			enableSelectByExample = "false" selectByExampleQueryId = "false" />
-
+-->
+        <table tableName="fa_user" domainObjectName="UserBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false" enableSelectByExample = "false" selectByExampleQueryId = "false"/>
+        <table tableName="fa_user_pwd" domainObjectName="UserPwdBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false" enableSelectByExample = "false" selectByExampleQueryId = "false"/>
+        <table tableName="fa_user_territory" domainObjectName="UserTerritoryBean" enableDeleteByExample = "false" enableCountByExample = "false" enableUpdateByExample = "false"	enableSelectByExample = "false" selectByExampleQueryId = "false"/>
     </context>  
 </generatorConfiguration>  

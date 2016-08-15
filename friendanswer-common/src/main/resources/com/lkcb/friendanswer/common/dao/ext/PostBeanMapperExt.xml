@@ -8,22 +8,86 @@
     <result column="favor_count" jdbcType="INTEGER" property="favorCount"  />
     <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
     <result column="star_count" jdbcType="INTEGER" property="starCount" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
   </resultMap>
-
-  <select id="getHomePageList" parameterType="java.util.Map" resultMap="HomePageResultMap">
+  <resultMap id="TerritoryResultMap" type="com.lkcb.friendanswer.common.bean.TerritoryBean">
+    <result column="territory_id" jdbcType="INTEGER" property="territoryId" />
+    <result column="territory_name" jdbcType="VARCHAR" property="territoryName" />
+  </resultMap>
+  <resultMap id="TerritoryCategoryResultMap" type="com.lkcb.friendanswer.common.bean.TerritoryCategoryBean">
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="territory_id" jdbcType="INTEGER" property="territoryId" />
+  </resultMap>
+  <!--查询用户所属领域-->
+  <select id="getUserBelongTerritory" parameterType="java.lang.Integer" resultMap="TerritoryResultMap">
+    SELECT ft.territory_id,ft.territory_name FROM fa_territory AS ft
+    WHERE ft.territory_id IN
+    (
+      SELECT ftc.territory_id FROM fa_user_territory AS fut,fa_territory_category AS ftc
+      WHERE fut.category_id = ftc.category_id AND fut.user_id = #{userId}
+    )
+  </select>
+  <!--根据用户id、所选的领域id，查找其下的领域分类-->
+  <select id="getCircleTerritoryCategory" parameterType="java.util.Map" resultMap="TerritoryCategoryResultMap">
+    SELECT ftc.category_id,ftc.category_name,ftc.territory_id FROM fa_user_territory AS fut,fa_territory_category AS ftc
+    WHERE fut.category_id=ftc.category_id
+     AND fut.user_id=#{userId}
+     AND ftc.territory_id=#{territoryId}
+  </select>
+  <!--圈子-最新列表-->
+  <select id="getCircleLastList" parameterType="java.util.Map" resultMap="HomePageResultMap">
     SELECT
       fp.post_id,
       fp.post_title,
       substring(fp.post_content,1,80) AS desc_text ,
       (SELECT count(1) FROM fa_favor AS ff WHERE ff.post_id=fp.post_id) AS favor_count ,
       (SELECT count(1) FROM fa_post_comment AS fpc WHERE fpc.post_id=fp.post_id) AS comment_count ,
-      (SELECT count(1) FROM fa_star AS fs WHERE fs.post_id=fp.post_id) AS star_count
+      (SELECT count(1) FROM fa_star AS fs WHERE fs.post_id=fp.post_id) AS star_count ,
+      fp.update_time
     FROM fa_post AS fp
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
-      <if test="categoryId==null || categoryId=='' ">
-        fp.category_id IN (#{categoryId})
+      <if test="categoryIdList != null ">
+        fp.category_id IN
+        <foreach collection="categoryIdList" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
       </if>
-      <if test="postType==null || postType=='' ">
+      <if test="categoryIdList == null">
+        fp.category_id IN (SELECT ftc.category_id FROM fa_user_territory AS fut,fa_territory_category AS ftc
+        WHERE fut.category_id=ftc.category_id
+        AND fut.user_id=#{userId}
+        AND ftc.territory_id=#{territoryId})
+      </if>
+      <if test="typeId != null || typeId != '' ">
+        AND fp.type_id=#{typeId}
+      </if>
+      ORDER BY fp.update_time DESC
+    </trim>
+  </select>
+  <!--圈子-收藏列表-->
+  <select id="getCircleFavorList" parameterType="java.util.Map" resultMap="HomePageResultMap">
+    SELECT
+    fp.post_id,
+    fp.post_title,
+    substring(fp.post_content,1,80) AS desc_text ,
+    (SELECT count(1) FROM fa_favor AS ff WHERE ff.post_id=fp.post_id) AS favor_count ,
+    (SELECT count(1) FROM fa_post_comment AS fpc WHERE fpc.post_id=fp.post_id) AS comment_count ,
+    (SELECT count(1) FROM fa_star AS fs WHERE fs.post_id=fp.post_id) AS star_count ,
+    fp.update_time
+    FROM fa_post AS fp,fa_star AS fs2
+    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      fp.post_id=fs2.post_id
+      <if test="userId==null || userId=='' ">
+        AND fs2.user_id=#{userId}
+      </if>
+      <if test="categoryIdList != null ">
+        fp.category_id IN
+        <foreach collection="categoryIdList" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="typeId != null || typeId !='' ">
         AND fp.type_id=#{typeId}
       </if>
     </trim>

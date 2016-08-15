@@ -67,7 +67,7 @@ public class FAnswerException extends RuntimeException {
 	public String getMessage() {
 
 		Map<String,Object> obj = new HashMap<String,Object>();
-		obj.put("msgCode", msgCode.getMsgCode());
+		obj.put("msgCode", msgCode.getCode());
 
 		if (msg != null) {
 			obj.put("message", msg);

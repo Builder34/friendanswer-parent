@@ -6,18 +6,20 @@ import java.io.Serializable;
  * Created by Builder34 on 2016/8/8.
  * 操作结果类
  */
-public class OperateResult<T> implements Serializable {
+public class PageResult<T> implements Serializable {
     private static final long serialVersionUID = 4741732279428546039L;
 
-    private int success ;   //操作是否成功
+    private int code ;   //接口响应码
     private String errorMsg ;  //错误信息
     private T data ;   //结果JSON字符串数据
-    public static final int SUCCESS = 1 ; //操作成功
-    public static final int FAIL = 0 ;   //操作失败
-    public static final String ERROR_SYS = "系统内部出错" ;
+    private int totalSize ; //结果集总数
 
-    public int getSuccess() {
-        return success;
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getErrorMsg() {
@@ -32,11 +34,15 @@ public class OperateResult<T> implements Serializable {
         return data;
     }
 
-    public void setSuccess(int success) {
-        this.success = success;
-    }
-
     public void setData(T data) {
         this.data = data;
+    }
+
+    public int getTotalSize() {
+        return totalSize;
+    }
+
+    public void setTotalSize(int totalSize) {
+        this.totalSize = totalSize;
     }
 }

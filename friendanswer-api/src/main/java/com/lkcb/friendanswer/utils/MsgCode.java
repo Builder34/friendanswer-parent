@@ -13,27 +13,23 @@ public enum MsgCode {
     SERVER_RESTARTING(501,"服务器正在重启")
     ;
 
-    private int msgCode ;    //响应码
+    private int code ;    //响应码
     private String message ; //描述信息
 
-    public int getMsgCode() {
-        return msgCode;
+    public int getCode() {
+        return code;
     }
-
+    public void setCode(int code) {
+        this.code = code;
+    }
     public String getMessage() {
         return message;
     }
-
-    public void setMsgCode(int msgCode) {
-        this.msgCode = msgCode;
-    }
-
     public void setMessage(String message) {
         this.message = message;
     }
-
-    MsgCode(int msgCode , String message){
-        this.setMsgCode(msgCode);
+    MsgCode(int code , String message){
+        this.setCode(code);
         this.setMessage(message);
     }
 }

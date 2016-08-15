@@ -1,10 +1,12 @@
 package com.lkcb.friendanswer.common.bean.result;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Builder34 on 2016/8/8.
- * 首页单行数据Bean
+ * 圈子-首页单行数据Bean
  */
 public class HomePageResult implements Serializable {
     private static final long serialVersionUID = -1372605468506360589L;
@@ -14,6 +16,14 @@ public class HomePageResult implements Serializable {
     private int favorCount ;      //点赞数
     private int commentCount ;    //评论数
     private int starCount ;       //收藏数
+    private Date lastUpdateTime ;  //最近修改时间 update_time
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public void setLastUpdateTime(Date lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
+    }
 
     public long getPostId() {
         return postId;
@@ -63,4 +73,5 @@ public class HomePageResult implements Serializable {
     public void setStarCount(int starCount) {
         this.starCount = starCount;
     }
+
 }

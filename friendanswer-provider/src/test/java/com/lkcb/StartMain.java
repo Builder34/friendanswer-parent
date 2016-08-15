@@ -13,7 +13,7 @@ public class StartMain {
             "applicationContext-test.xml"
         }) ;
         context.start();
-        System.out.println("Spring启动成功！");
-        System.in.read();
+        System.out.print("Spring正常启动...");
+        System.in.read() ;
     }
 }

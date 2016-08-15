@@ -2,7 +2,7 @@ package com.lkcb;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lkcb.friendanswer.provider.service.PostServiceImpl;
-import com.lkcb.friendanswer.utils.OperateResult;
+import com.lkcb.friendanswer.utils.PageResult;
 import org.apache.log4j.PropertyConfigurator;
 import org.junit.After;
 import org.junit.Before;
@@ -32,10 +32,10 @@ public class DubboProviderTest {
     public void tearDown() throws Exception {}
     @Test
     public void getHomePageList(){
-        Map<String,Integer> params = new HashMap<>() ;
+        /*Map<String,Integer> params = new HashMap<>() ;
         params.put("categoryId",1) ;
         params.put("typeId", 2) ;
-        OperateResult result= postService.getHomePageList(params) ;
-        System.out.println(JSONObject.toJSONString(result));
+        PageResult result= postService.getHomePageList(params) ;
+        System.out.println(JSONObject.toJSONString(result));*/
     }
 }
