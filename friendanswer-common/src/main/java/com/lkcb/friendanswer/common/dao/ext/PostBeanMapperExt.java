@@ -31,7 +31,7 @@ public interface PostBeanMapperExt extends PostBeanMapper {
      * 圈子-收藏列表
      * @param params 参数集合；必填：userId，可选：typeId
      * */
-    List<HomePageResult> getCircleFavorList(Map<String,Object> params) ;
+    List<HomePageResult> getCircleStarList(Map<String,Object> params) ;
     /**
      * 圈子-我的列表
      * @param params 参数集合；categoryId,typeId

@@ -67,12 +67,30 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    public PageResult<Map<String, Object>> getCircleFavorList(Map<String, Object> params, boolean isIncludeCateMenu) {
-        return null;
+    public PageResult<Map<String, Object>> getCircleStarList(Map<String, Object> params) {
+        PageResult result = new PageResult() ;
+        try{
+            List<HomePageResult> postData= postBeanMapperExt.getCircleStarList(params) ;
+            Map<String,Object> dataMap = new HashMap<>() ;
+            dataMap.put("postList",postData) ;
+            boolean isIncludeCateMenu = params.get("isIncludeCateMenu")==null?false:(Boolean) params.get("isIncludeCateMenu") ;
+            if(isIncludeCateMenu){
+                dataMap.put("categoryMenu",postBeanMapperExt.getCircleTerritoryCategory(params)) ;
+            }
+            result.setData(dataMap);
+            result.setCode(MsgCode.SUCCESS.getCode()) ;
+            result.setTotalSize(postData.size());
+        }catch (Exception e){
+            result.setCode(MsgCode.SERVER_ERROR.getCode());
+            result.setData("");
+            result.setErrorMsg(MsgCode.SERVER_ERROR.getMessage());
+            logger.error("系统错误：",e);
+        }
+        return result ;
     }
 
     @Override
-    public PageResult<Map<String, Object>> getCircleSelfList(Map<String, Object> params, boolean isIncludeCateMenu) {
+    public PageResult<Map<String, Object>> getCircleSelfList(Map<String, Object> params) {
         return null;
     }
 }

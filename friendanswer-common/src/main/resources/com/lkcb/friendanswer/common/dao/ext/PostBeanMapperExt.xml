@@ -59,14 +59,14 @@
         AND fut.user_id=#{userId}
         AND ftc.territory_id=#{territoryId})
       </if>
-      <if test="typeId != null || typeId != '' ">
+      <if test="typeId != null and typeId != '' ">
         AND fp.type_id=#{typeId}
       </if>
       ORDER BY fp.update_time DESC
     </trim>
   </select>
   <!--圈子-收藏列表-->
-  <select id="getCircleFavorList" parameterType="java.util.Map" resultMap="HomePageResultMap">
+  <select id="getCircleStarList" parameterType="java.util.Map" resultMap="HomePageResultMap">
     SELECT
     fp.post_id,
     fp.post_title,
@@ -78,18 +78,19 @@
     FROM fa_post AS fp,fa_star AS fs2
     <trim prefix="WHERE" prefixOverrides="AND |OR ">
       fp.post_id=fs2.post_id
-      <if test="userId==null || userId=='' ">
+      <if test="userId != null and userId != '' ">
         AND fs2.user_id=#{userId}
       </if>
       <if test="categoryIdList != null ">
-        fp.category_id IN
+        AND fp.category_id IN
         <foreach collection="categoryIdList" item="item" open="(" separator="," close=")">
           #{item}
         </foreach>
       </if>
-      <if test="typeId != null || typeId !='' ">
+      <if test="typeId != null and typeId !='' ">
         AND fp.type_id=#{typeId}
       </if>
+      ORDER BY fp.update_time DESC
     </trim>
   </select>
 </mapper>

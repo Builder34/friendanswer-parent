@@ -9,6 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class StartMain {
     public static void main(String[] args) throws Exception{
         PropertyConfigurator.configure(StartMain.class.getResource("/configs/dubbo_conf/log4j.properties"));
+        //org.apache.ibatis.logging.LogFactory.useLog4JLogging();
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(new String[]{
             "applicationContext-test.xml"
         }) ;

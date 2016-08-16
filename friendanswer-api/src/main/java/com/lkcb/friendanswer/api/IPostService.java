@@ -21,17 +21,16 @@ public interface IPostService {
     /**
      * 圈子-最新列表
      * @param params 输入参数
-     * @param isIncludeCateMenu 是否包含领域分类菜单数据返回
      * */
     PageResult<Map<String,Object>> getCircleLastList(Map<String,Object> params) ;
     /**
      * 圈子-收藏列表
      * */
-    PageResult<Map<String,Object>> getCircleFavorList(Map<String,Object> params , boolean isIncludeCateMenu) ;
+    PageResult<Map<String,Object>> getCircleStarList(Map<String,Object> params) ;
     /**
      * 圈子-我的列表
      * */
-    PageResult<Map<String,Object>> getCircleSelfList(Map<String,Object> params , boolean isIncludeCateMenu) ;
+    PageResult<Map<String,Object>> getCircleSelfList(Map<String,Object> params) ;
 
 
 }
