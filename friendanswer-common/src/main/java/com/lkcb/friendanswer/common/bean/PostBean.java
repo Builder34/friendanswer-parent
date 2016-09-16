@@ -38,11 +38,11 @@ public class PostBean implements Serializable {
 
     /**
      * @author 吖彪快跑34
-     * This field corresponds to the database column fa_post.poster 发帖人
+     * This field corresponds to the database column fa_post.user_id 发帖人id
      *
      * @mbggenerated
      */
-    private String poster;
+    private Integer userId;
 
     /**
      * @author 吖彪快跑34
@@ -116,12 +116,12 @@ public class PostBean implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public String getPoster() {
-        return poster;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setPoster(String poster) {
-        this.poster = poster;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getHeatRange() {

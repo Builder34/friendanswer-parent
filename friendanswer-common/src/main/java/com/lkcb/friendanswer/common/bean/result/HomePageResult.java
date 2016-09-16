@@ -16,7 +16,17 @@ public class HomePageResult implements Serializable {
     private int favorCount ;      //点赞数
     private int commentCount ;    //评论数
     private int starCount ;       //收藏数
+    private String poster ; //发帖人昵称
     private Date lastUpdateTime ;  //最近修改时间 update_time
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
     public Date getLastUpdateTime() {
         return lastUpdateTime;
     }

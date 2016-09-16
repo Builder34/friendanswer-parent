@@ -8,6 +8,7 @@
     <result column="favor_count" jdbcType="INTEGER" property="favorCount"  />
     <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
     <result column="star_count" jdbcType="INTEGER" property="starCount" />
+    <result column="poster" jdbcType="VARCHAR" property="poster" />
     <result column="update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
   </resultMap>
   <resultMap id="TerritoryResultMap" type="com.lkcb.friendanswer.common.bean.TerritoryBean">
@@ -44,17 +45,18 @@
       (SELECT count(1) FROM fa_favor AS ff WHERE ff.post_id=fp.post_id) AS favor_count ,
       (SELECT count(1) FROM fa_post_comment AS fpc WHERE fpc.post_id=fp.post_id) AS comment_count ,
       (SELECT count(1) FROM fa_star AS fs WHERE fs.post_id=fp.post_id) AS star_count ,
+      (SELECT fu.nick_name FROM fa_user AS fu WHERE fu.user_id=fp.user_id) AS poster,
       fp.update_time
     FROM fa_post AS fp
-    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
       <if test="categoryIdList != null ">
-        fp.category_id IN
+        AND fp.category_id IN
         <foreach collection="categoryIdList" item="item" open="(" separator="," close=")">
           #{item}
         </foreach>
       </if>
       <if test="categoryIdList == null">
-        fp.category_id IN (SELECT ftc.category_id FROM fa_user_territory AS fut,fa_territory_category AS ftc
+        AND fp.category_id IN (SELECT ftc.category_id FROM fa_user_territory AS fut,fa_territory_category AS ftc
         WHERE fut.category_id=ftc.category_id
         AND fut.user_id=#{userId}
         AND ftc.territory_id=#{territoryId})
@@ -74,9 +76,10 @@
     (SELECT count(1) FROM fa_favor AS ff WHERE ff.post_id=fp.post_id) AS favor_count ,
     (SELECT count(1) FROM fa_post_comment AS fpc WHERE fpc.post_id=fp.post_id) AS comment_count ,
     (SELECT count(1) FROM fa_star AS fs WHERE fs.post_id=fp.post_id) AS star_count ,
+    (SELECT fu.nick_name FROM fa_user AS fu WHERE fu.user_id=fp.user_id) AS poster,
     fp.update_time
     FROM fa_post AS fp,fa_star AS fs2
-    <trim prefix="WHERE" prefixOverrides="AND |OR ">
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
       fp.post_id=fs2.post_id
       <if test="userId != null and userId != '' ">
         AND fs2.user_id=#{userId}
@@ -86,6 +89,44 @@
         <foreach collection="categoryIdList" item="item" open="(" separator="," close=")">
           #{item}
         </foreach>
+      </if>
+      <if test="categoryIdList == null">
+        fp.category_id IN (SELECT ftc.category_id FROM fa_user_territory AS fut,fa_territory_category AS ftc
+        WHERE fut.category_id=ftc.category_id
+        AND fut.user_id=#{userId}
+        AND ftc.territory_id=#{territoryId})
+      </if>
+      <if test="typeId != null and typeId !='' ">
+        AND fp.type_id=#{typeId}
+      </if>
+      ORDER BY fp.update_time DESC
+    </trim>
+  </select>
+  <!--圈子-我的列表-->
+  <select id="getCircleSelfList" parameterType="java.util.Map" resultMap="HomePageResultMap">
+    SELECT
+    fp.post_id,
+    fp.post_title,
+    substring(fp.post_content,1,80) AS desc_text ,
+    (SELECT count(1) FROM fa_favor AS ff WHERE ff.post_id=fp.post_id) AS favor_count ,
+    (SELECT count(1) FROM fa_post_comment AS fpc WHERE fpc.post_id=fp.post_id) AS comment_count ,
+    (SELECT count(1) FROM fa_star AS fs WHERE fs.post_id=fp.post_id) AS star_count ,
+    (SELECT fup.nick_name FROM fa_user AS fup WHERE fup.user_id=fp.user_id) AS poster,
+    fp.update_time
+    FROM fa_post AS fp
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      fp.user_id=#{userId}
+      <if test="categoryIdList != null ">
+        AND fp.category_id IN
+        <foreach collection="categoryIdList" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="categoryIdList == null">
+        AND fp.category_id IN (SELECT ftc.category_id FROM fa_user_territory AS fut,fa_territory_category AS ftc
+        WHERE fut.category_id=ftc.category_id
+        AND fut.user_id=#{userId}
+        AND ftc.territory_id=#{territoryId})
       </if>
       <if test="typeId != null and typeId !='' ">
         AND fp.type_id=#{typeId}

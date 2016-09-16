@@ -23,6 +23,10 @@ public class RESTfulUrlConstants {
      * */
     public final static String SECOND_STARLIST = "/starList" ;
     /**
+     * 第二层url-我的列表
+     * */
+    public final static String SECOND_SELFLIST = "/selfList" ;
+    /**
      * 第二层url-列表
      * */
     public final static String SECOND_LIST = "/list" ;
