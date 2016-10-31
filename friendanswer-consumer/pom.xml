@@ -84,6 +84,11 @@
             <artifactId>commons-lang</artifactId>
             <version>${commons.lang.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
+        </dependency>
         <!--
         <dependency>
             <groupId>org.springframework</groupId>
@@ -116,7 +121,6 @@
             <version>0.2</version>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>friendanswer-consumer</finalName>
         <filters>
@@ -141,6 +145,23 @@
                     <port>8080</port>
                     <uriEncoding>UTF-8</uriEncoding>
                     <server>tomcat8</server>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <warName>${project.artifactId}</warName>
+                    <webResources>
+                        <resource>
+                            <directory>${project.basedir}/src/lib/</directory>
+                            <targetPath>WEB-INF/lib</targetPath>
+                            <includes>
+                                <include>**/*.jar</include>
+                            </includes>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
         </plugins>

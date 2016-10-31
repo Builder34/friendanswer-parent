@@ -53,6 +53,15 @@
     <servlet-name>springMVC</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>UncodeSchedule</servlet-name>
+    <servlet-class>cn.uncode.schedule.web.ManagerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UncodeSchedule</servlet-name>
+    <url-pattern>/uncode/schedule</url-pattern>
+  </servlet-mapping>
+
   <!-- 著名 Character Encoding filter -->
   <filter>
     <filter-name>encodingFilter</filter-name>

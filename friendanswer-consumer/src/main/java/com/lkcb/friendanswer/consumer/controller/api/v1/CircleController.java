@@ -8,7 +8,9 @@ import com.lkcb.friendanswer.common.bean.TerritoryBean;
 import com.lkcb.friendanswer.common.bean.result.HomePageResult;
 import com.lkcb.friendanswer.consumer.constants.ApiVersionUrl;
 import com.lkcb.friendanswer.consumer.constants.RESTfulUrlConstants;
+import com.lkcb.friendanswer.utils.MsgCode;
 import com.lkcb.friendanswer.utils.PageResult;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -36,17 +39,25 @@ public class CircleController {
      * 领域列表
      * */
     @RequestMapping(path = RESTfulUrlConstants.SECOND_TERRITORYLIST , method = RequestMethod.POST)
-    public @ResponseBody String territoryList(@RequestBody String requestBodyJson){
-        Map<String,Object> params = (Map<String,Object>)JSON.parseObject(requestBodyJson,Map.class) ;
-        PageResult<List<TerritoryBean>> result = postService.getUserBelongTerritory((Integer)params.get("userId"));
+    public @ResponseBody String territoryList(@RequestBody(required = false) String requestBodyJson,HttpServletRequest request){
+        String paramsStr = requestBodyJson==null?"{}":requestBodyJson ;
+        Map<String,Object> params = (Map<String,Object>)JSON.parseObject(paramsStr,Map.class) ;
+        PageResult<List<TerritoryBean>> result  ;
+        if(null != params.get("userId")) {
+            result = postService.getUserBelongTerritory(Integer.parseInt(String.valueOf(params.get("userId"))));
+        }else{
+            result = new PageResult<>() ;
+            result.setCode(MsgCode.MISS_PARAM.getCode());
+            result.setErrorMsg(MsgCode.MISS_PARAM.getMessage()+": userId");
+        }
         String resultJsonString = JSONObject.toJSONString(result, SerializerFeature.PrettyFormat);
-        return resultJsonString ;
+        return resultJsonString;
     }
     /**
      * 最新列表
      * */
     @RequestMapping(path = RESTfulUrlConstants.SECOND_LASTLIST , method = RequestMethod.POST)
-    public @ResponseBody String lastList(@RequestBody String requestBodyJson){
+    public @ResponseBody String lastList(@RequestBody(required = false) String requestBodyJson){
         Map<String,Object> params = (Map<String,Object>)JSON.parseObject(requestBodyJson,Map.class) ;
         PageResult<Map<String,Object>> result = postService.getCircleLastList(params) ;
         List<HomePageResult> postList = (List<HomePageResult>)result.getData().get("postList") ;
@@ -61,7 +72,7 @@ public class CircleController {
      * 收藏列表
      * */
     @RequestMapping(path = RESTfulUrlConstants.SECOND_STARLIST , method = RequestMethod.POST)
-    public @ResponseBody String starList(@RequestBody String requestBodyJson){
+    public @ResponseBody String starList(@RequestBody(required = false) String requestBodyJson){
         Map<String,Object> params = (Map<String,Object>)JSON.parseObject(requestBodyJson,Map.class) ;
         PageResult<Map<String,Object>> result = postService.getCircleStarList(params) ;
         String resultJsonString = JSONObject.toJSONStringWithDateFormat(result,"yyyyMMddHHmmss", SerializerFeature.PrettyFormat);
@@ -71,7 +82,7 @@ public class CircleController {
      * 我的列表
      * */
     @RequestMapping(path = RESTfulUrlConstants.SECOND_SELFLIST , method = RequestMethod.POST)
-    public @ResponseBody String selfList(@RequestBody String requestBodyJson){
+    public @ResponseBody String selfList(@RequestBody(required = false) String requestBodyJson){
         Map<String,Object> params = (Map<String,Object>)JSON.parseObject(requestBodyJson,Map.class) ;
         PageResult<Map<String,Object>> result = postService.getCircleSelfList(params) ;
         String resultJsonString = JSONObject.toJSONStringWithDateFormat(result,"yyyyMMddHHmmss", SerializerFeature.PrettyFormat);

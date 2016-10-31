@@ -37,7 +37,7 @@ public class PostServiceImpl implements IPostService {
             result.setCode(MsgCode.SERVER_ERROR.getCode());
             result.setErrorMsg(MsgCode.SERVER_ERROR.getMessage());
             result.setData("");
-            logger.error("系统出错：",e);
+            logger.error("接口内部系统出错：",e);
         }
         return result ;
     }
