@@ -13,6 +13,7 @@
         <module>friendanswer-provider</module>
         <module>friendanswer-api</module>
         <module>friendanswer-consumer</module>
+        <module>friendanswer-admin</module>
     </modules>
     
     <properties>
