@@ -25,8 +25,8 @@ public class DataSourceAspect {
                 //LOGGER.debug("use [{}] datasource now. ",data.value());
                 LOGGER.info("use [{}] datasource now. ",data.value());
             }else{
-                DataSourceSwitcherToken.putToken("slave");
-                LOGGER.warn("datasource choose is null use [{}] datasource by default. ","slave");
+                DataSourceSwitcherToken.putToken(DataSourceConstant.MASTER);
+                LOGGER.warn("datasource choose is null, use [{}] datasource by default. ",DataSourceConstant.MASTER);
             }
         }catch (Exception e){
             LOGGER.error("error: ",e);

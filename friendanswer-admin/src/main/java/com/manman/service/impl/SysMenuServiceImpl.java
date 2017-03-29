@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.manman.dao.SysMenuDao;
 import com.manman.datasource.DataSource;
+import com.manman.datasource.DataSourceConstant;
 import com.manman.entity.SysMenuEntity;
 import com.manman.service.SysMenuService;
 import com.manman.service.SysRoleMenuService;
@@ -65,7 +66,7 @@ public class SysMenuServiceImpl implements SysMenuService {
 	}
 
 	@Override
-	@DataSource(value = "slave")
+	@DataSource(value = DataSourceConstant.SLAVE)
 	public List<SysMenuEntity> queryList(Map<String, Object> map) {
 		return sysMenuDao.queryList(map);
 	}
