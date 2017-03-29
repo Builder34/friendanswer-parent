@@ -14,8 +14,8 @@ import org.springframework.stereotype.Controller;
 
 import ${package}.entity.${className}Entity;
 import ${package}.service.${className}Service;
-import com.qing.utils.PageUtils;
-import com.qing.utils.R;
+import com.manman.utils.PageUtils;
+import com.manman.utils.R;
 
 
 /**

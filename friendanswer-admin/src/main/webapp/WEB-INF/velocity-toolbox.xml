@@ -4,6 +4,6 @@
 	<tool>
 	    <key>shiro</key>
 	    <scope>application</scope>
-	    <class>com.qing.shiro.VelocityShiro</class>
+	    <class>com.manman.shiro.VelocityShiro</class>
 	</tool>
 </toolbox>

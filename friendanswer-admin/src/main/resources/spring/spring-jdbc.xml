@@ -1,47 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/tx 
      	http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<tx:annotation-driven />
 	<context:property-placeholder location="classpath:configs/jdbc.properties" />
-	
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="1000" />
+		<property name="logSlowSql" value="true" />
+		<property name="mergeSql" value="true" />
+	</bean>
+	<bean id="basic" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
-		<property name="url">
-			<value>${jdbc.url}</value>
-		</property>
-		<property name="username">
-			<value>${jdbc.username}</value>
-		</property>
-		<property name="password">
-			<value>${jdbc.password}</value>
-		</property>
-		<property name="initialSize">
-			<value>${jdbc.initialSize}</value>
-		</property>
-		<property name="maxActive">
-			<value>${jdbc.maxActive}</value>
-		</property>
+		<property name="url" value="${jdbc.master.url}"/>
+		<property name="username" value="${jdbc.master.username}" />
+		<property name="password" value="${jdbc.master.password}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
 		<property name="proxyFilters">
 			<list>
 				<ref bean="stat-filter" />
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
-		<property name="slowSqlMillis" value="1000" />
-		<property name="logSlowSql" value="true" />
-		<property name="mergeSql" value="true" />
+	<!--主库-->
+	<bean id="masterDataSource" parent="basic">
+		<property name="url" value="${jdbc.master.url}" />
+		<property name="username" value="${jdbc.master.username}" />
+		<property name="password" value="${jdbc.master.password}" />
 	</bean>
+	<!--从库-->
+	<bean id="slaveDataSource" parent="basic">
+		<property name="url" value="${jdbc.slave.url}" />
+		<property name="username" value="${jdbc.slave.username}" />
+		<property name="password" value="${jdbc.slave.password}" />
+	</bean>
+	<!--数据源（自定义切换）-->
+	<bean id="dataSource" class="com.manman.datasource.DataSourceSwitcher">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="master" value-ref="masterDataSource"/>
+				<entry key="slave" value-ref="slaveDataSource"/>
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="masterDataSource" />
+	</bean>
+	<!-- (aop + aspectj)配置切面 用于分库 -->
+	<aop:aspectj-autoproxy/>
+	<bean id="dataSourceAspect" class="com.manman.datasource.DataSourceAspect" />
+	<aop:config>
+		<aop:aspect id="c" ref="dataSourceAspect">
+			<aop:pointcut id="pc1" expression="execution(* *..service.impl..*.*(..))" />
+			<aop:before pointcut-ref="pc1" method="before" />
+		</aop:aspect>
+	</aop:config>
 
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -56,6 +80,6 @@
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.qing.dao" />
+		<property name="basePackage" value="com.manman.dao" />
 	</bean>
 </beans>
