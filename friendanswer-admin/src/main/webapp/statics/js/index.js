@@ -48,7 +48,7 @@ var vm = new Vue({
     },
     created:function(){
         this.getMenuList() ;
-        //this.getUser() ;
+        this.getUser() ;
     },
     updated:function(){
         //路由

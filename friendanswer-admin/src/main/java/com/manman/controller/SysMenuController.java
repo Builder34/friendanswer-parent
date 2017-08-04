@@ -34,7 +34,7 @@ public class SysMenuController extends AbstractController {
 	/**
 	 * 所有菜单列表
 	 */
-	@RequestMapping("/list.do")
+	@RequestMapping("/list")
 	@RequiresPermissions("sys:menu:list")
 	public R list(Integer page, Integer limit){
 		Map<String, Object> map = new HashMap<>();
@@ -86,7 +86,7 @@ public class SysMenuController extends AbstractController {
 	 * 菜单信息
 	 */
 	@RequestMapping("/info/{menuId}")
-	//@RequiresPermissions("sys:menu:info")
+	@RequiresPermissions("sys:menu:info")
 	public R info(@PathVariable("menuId") Long menuId){
 		SysMenuEntity menu = sysMenuService.queryObject(menuId);
 		return R.ok().put("menu", menu);
